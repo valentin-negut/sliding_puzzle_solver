@@ -1,4 +1,3 @@
-import argparse
 import copy
 import heapq
 
@@ -22,7 +21,6 @@ class PuzzleNode:
     def heuristic(self):
         # Manhattan distance heuristic
         h = 0
-        goal_state = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
         for i in range(3):
             for j in range(3):
                 if self.state[i][j] != 0:
@@ -79,11 +77,6 @@ def solve_puzzle(initial_state):
     return None  # No solution found
 
 
-def print_puzzle(state):
-    for row in state:
-        print(row)
-
-
 def get_directions(initial_state, solution):
     directions = []
     i, j = get_blank_position(initial_state)
@@ -99,59 +92,3 @@ def get_directions(initial_state, solution):
         i, j = ni, nj
 
     return directions
-
-
-def get_user_input():
-    print("Enter the initial puzzle state as a list of 9 numbers (use 0 for the blank space):")
-    user_input = input("Example: 1 2 3 4 5 6 7 8 0\nYour input: ").split()
-    try:
-        user_input = [int(num) for num in user_input]
-        if len(user_input) != 9:
-            raise ValueError("Invalid input. Please provide exactly 9 numbers.")
-        return [user_input[i : i + 3] for i in range(0, 9, 3)]
-    except ValueError as e:
-        print(f"Error: {e}")
-        return None
-
-
-def main():
-    parser = argparse.ArgumentParser(description="3x3 Sliding Puzzle Solver")
-    parser.add_argument("--print_steps", action="store_true", help="Print solution steps")
-    args = parser.parse_args()
-
-    # Example usage:
-    user_input = get_user_input()
-    if user_input is None:
-        return
-
-    print("\nInitial State:")
-    print_puzzle(user_input)
-
-    solution = solve_puzzle(user_input)
-
-    if solution:
-        if args.print_steps:
-            print("\nSolution Steps:")
-            current_state = copy.deepcopy(user_input)
-            print_puzzle(current_state)
-
-            for move in solution:
-                ni, nj = move
-                i, j = get_blank_position(current_state)
-                current_state[i][j], current_state[ni][nj] = current_state[ni][nj], current_state[i][j]
-                print("\nMove blank:", move)
-                print_puzzle(current_state)
-        else:
-            directions = get_directions(user_input, solution)
-            print("\nSolution Directions:")
-            for i, direction in enumerate(directions, start=1):
-                print(f"{i} - {direction}")
-                if i % 4 == 0 and i != len(directions):
-                    print()  # Add a blank line after every 4 directions
-
-    else:
-        print("\nNo solution found.")
-
-
-if __name__ == "__main__":
-    main()

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Solution</title>
+</head>
+<body>
+<h1>Solution</h1>
+<p>Initial State:</p>
+<pre>{{ initial_state }}</pre>
+<div>
+    <p>Solution Directions:</p>
+    <ol>
+        {% for group in solution %}
+        <br>
+        {% for move in group %}
+        <li>{{ move }}</li>
+        {% endfor %}
+        {% endfor %}
+    </ol>
+</div>
+</body>
+</html>
