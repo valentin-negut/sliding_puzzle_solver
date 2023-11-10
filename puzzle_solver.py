@@ -1,3 +1,4 @@
+import argparse
 import heapq
 import copy
 
@@ -83,7 +84,27 @@ def print_puzzle(state):
         print(row)
 
 
+def get_directions(initial_state, solution):
+    directions = []
+    i, j = get_blank_position(initial_state)
+
+    direction_mapping = {(0, 1): "right", (0, -1): "left", (1, 0): "down", (-1, 0): "up"}
+
+    for new_state in solution:
+        ni, nj = new_state
+        direction = direction_mapping[(ni - i, nj - j)]
+        directions.append(direction)
+
+        # Update current position
+        i, j = ni, nj
+
+    return directions
+
 def main():
+    parser = argparse.ArgumentParser(description="3x3 Sliding Puzzle Solver")
+    parser.add_argument("--print_steps", action="store_true", help="Print solution steps")
+    args = parser.parse_args()
+
     # Example usage:
     initial_state = [[6, 8, 7], [1, 3, 5], [4, 2, 0]]
     print("Initial State:")
@@ -92,19 +113,28 @@ def main():
     solution = solve_puzzle(initial_state)
 
     if solution:
-        print("\nSolution Steps:")
-        current_state = copy.deepcopy(initial_state)
-        print_puzzle(current_state)
-
-        for move in solution:
-            ni, nj = move
-            i, j = get_blank_position(current_state)
-            current_state[i][j], current_state[ni][nj] = current_state[ni][nj], current_state[i][j]
-            print("\nMove blank:", move)
+        if args.print_steps:
+            print("\nSolution Steps:")
+            current_state = copy.deepcopy(initial_state)
             print_puzzle(current_state)
+
+            for move in solution:
+                ni, nj = move
+                i, j = get_blank_position(current_state)
+                current_state[i][j], current_state[ni][nj] = current_state[ni][nj], current_state[i][j]
+                print("\nMove blank:", move)
+                print_puzzle(current_state)
+
+        else:
+            directions = get_directions(initial_state, solution)
+            print("\nSolution Directions:")
+            for i, direction in enumerate(directions, start=1):
+                print(f"{i} - {direction}")
+                if i % 4 == 0 and i != len(directions):
+                    print()  # Add a blank line after every 4 directions
+
     else:
         print("\nNo solution found.")
-
 
 if __name__ == "__main__":
     main()
