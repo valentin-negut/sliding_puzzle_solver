@@ -4,11 +4,18 @@
 
 This Python program aims to solve the classic 3x3 sliding puzzle using the A* algorithm. The puzzle consists of a 3x3 grid with eight numbered tiles and one blank space, and the goal is to rearrange the tiles into numerical order by sliding them into the empty space.
 
+## Features
+
+- A* algorithm with the Manhattan distance heuristic.
+- Displays step-by-step directions to solve.
+- Supports custom initial puzzle states.
+
 ## Usage
 
 ### Prerequisites
 
 - Python 3.x
+- Flask
 
 ### Getting Started
 
@@ -24,14 +31,10 @@ This Python program aims to solve the classic 3x3 sliding puzzle using the A* al
     cd sliding_puzzle_solver
     ```
 
-3. Edit initial_state in main() to match your initial puzzle state, using "0" as a placeholder for the empty tile
-
-         Example: [[6, 8, 7], [1, 3, 5], [4, 2, 0]] 
-
-4. Run the program:
+3. Run the program:
 
     ```bash
-    python puzzle_solver.py
+    python app.py
     ```
 
 
@@ -41,7 +44,7 @@ This Python program aims to solve the classic 3x3 sliding puzzle using the A* al
 
 The program uses the A* algorithm to find the optimal solution to the sliding puzzle. The `PuzzleNode` class represents the state of the puzzle at each step. It explores possible moves and chooses the most promising ones based on a heuristic (Manhattan distance).
 
-The `solve_puzzle` function takes the initial state of the puzzle and returns a list of moves to solve it. The `main` function demonstrates the usage of the program, printing each step of the solution.
+The `solve_puzzle` function takes the initial state of the puzzle and returns a list of moves to solve it.
 
 ### Technical Explanation
 
